@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Programa de Colas</title>
+</head>
+
+<body>
+    <h1>Programa de Colas</h1>
+    <script src="socket.io/socket.io.js"></script>
+    <script>
+        var socket = io(); 
+        //Funcion que diga cuando se connecta al servidor
+        // el metodo on permite escuchar 
+        socket.on('connect', () => {
+            console.log("Conectado al servidor");
+        });
+
+        //Funcion escucha cuando se pierde conexion con el servidor
+        socket.on('disconnect', () => {
+            console.log('Perdimos conexion con el servidor');
+        });
+
+        //Emitir una peticion al servidor , enviado informacion 
+        //Para obtener una confirmacion de que se recibio el mensaje se debe especificar un callback
+        socket.emit('enviarMensaje', {
+           usuario: 'Bairon Fernando',
+           mensaje: 'Hola mundo' 
+        }, function(resp){
+            console.log("Respuesta servidor", resp);
+        });
+
+        //Recibir informacion emitida por el servidor
+        socket.on('enviarMensaje', (mensaje) => {
+            console.log('Servidor', mensaje);
+        });
+    
+    </script>
+</body>
+
+</html>
